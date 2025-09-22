@@ -1,17 +1,28 @@
 import { Contact, ContactFormData } from "../types/contact";
 import { API_BASE_URL } from "../env";
+import { API_SECRET } from "../env";
 
 export const contactsApi = {
   // Get all contacts
   getAll: async (): Promise<Contact[]> => {
-    const response = await fetch(`${API_BASE_URL}/contacts`);
+    const response = await fetch(`${API_BASE_URL}/contacts`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-secret': API_SECRET
+      },
+    });
     if (!response.ok) throw new Error('Failed to fetch contacts');
     return response.json();
   },
 
   // Get contact by ID
   getById: async (id: string): Promise<Contact> => {
-    const response = await fetch(`${API_BASE_URL}/contacts/${id}`);
+    const response = await fetch(`${API_BASE_URL}/contacts/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-secret': API_SECRET
+      },
+    });
     if (!response.ok) throw new Error('Failed to fetch contact');
     return response.json();
   },
@@ -22,6 +33,7 @@ export const contactsApi = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-secret': API_SECRET
       },
       body: JSON.stringify(contactData),
     });
@@ -35,6 +47,7 @@ export const contactsApi = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-secret': API_SECRET
       },
       body: JSON.stringify(contactData),
     });
@@ -46,6 +59,10 @@ export const contactsApi = {
   delete: async (id: string): Promise<Contact> => {
     const response = await fetch(`${API_BASE_URL}/contacts/${id}`, {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-secret': API_SECRET
+      },
     });
     if (!response.ok) throw new Error('Failed to delete contact');
     return response.json();
