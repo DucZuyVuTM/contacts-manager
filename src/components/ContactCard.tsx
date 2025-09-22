@@ -1,9 +1,7 @@
 import React from 'react';
 import { Edit, Trash2, Phone, User } from 'lucide-react';
 import type { Contact } from '../types/contact';
-import Swal from 'sweetalert2';
-
-const PASSWORD = import.meta.env.VITE_PASSWORD || 'admin';
+import { promptPassword } from '../utils/promptPassword';
 
 interface ContactCardProps {
   contact: Contact;
@@ -16,34 +14,23 @@ export const ContactCard: React.FC<ContactCardProps> = ({
   onEdit,
   onDelete,
 }) => {
-  const handleEdit = () => onEdit(contact);
+  const handleEdit = async () => {
+    const password = await promptPassword(
+      'Confirm Edition',
+      `Enter password to edit ${contact.name}:`
+    );
+
+    if (password) onEdit(contact);
+  };
 
   const handleDelete = async () => {
-    const { value: password } = await Swal.fire({
-      title: 'Confirm Deletion',
-      text: 'Enter Password:',
-      input: 'password',
-      inputPlaceholder: 'Nhập mật khẩu',
-      inputAttributes: {
-        autocapitalize: 'off',
-        autocorrect: 'off',
-      },
-      showCancelButton: true,
-      confirmButtonText: 'Xác Nhận',
-      cancelButtonText: 'Hủy',
-      inputValidator: (value: string) => {
-        if (!value.trim()) {
-          return 'Mật khẩu không được để trống!';
-        }
-        if (value !== PASSWORD) {
-          return 'Incorrect password!';
-        }
-        return null;
-      },
-    });
+    const password = await promptPassword(
+      'Confirm Deletion',
+      `Enter password to delete ${contact.name}:`
+    );
 
     if (password) {
-      if (window.confirm(`Bạn có chắc muốn xóa ${contact.name}?`)) {
+      if (window.confirm(`Are you sure to delete ${contact.name}?`)) {
         onDelete(contact._id);
       }
     }
