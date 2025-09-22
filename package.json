@@ -1,5 +1,5 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "contact-list",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
+    "@sweetalert2/theme-dark": "^5.0.27",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "sweetalert2": "^11.23.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",

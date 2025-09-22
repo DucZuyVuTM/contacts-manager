@@ -50,22 +50,23 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-1 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <Users className="h-6 w-6 text-blue-600" />
               </div>
-              <h1 className="text-xl font-semibold text-gray-900">
+              <h1 className="text-lg sm:text-xl font-semibold text-gray-900 truncate">
                 Contacts Manager
               </h1>
             </div>
             <button
               onClick={handleAddContact}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
             >
               <Plus className="h-4 w-4" />
-              Add Contact
+              <span className="hidden xs:inline">Add Contact</span>
+              <span className="xs:hidden">Add</span>
             </button>
           </div>
         </div>
@@ -74,7 +75,7 @@ const App: React.FC = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-8">
         {/* Search Bar */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
@@ -83,20 +84,20 @@ const App: React.FC = () => {
         </div>
 
         {/* Stats */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-medium text-gray-900">
+              <h2 className="text-base sm:text-lg font-medium text-gray-900">
                 Total Contacts
               </h2>
-              <p className="text-3xl font-bold text-blue-600 mt-1">
+              <p className="text-2xl sm:text-3xl font-bold text-blue-600 mt-1">
                 {contacts.length}
               </p>
             </div>
             {searchQuery && (
               <div className="text-right">
                 <p className="text-sm text-gray-500">Showing</p>
-                <p className="text-xl font-semibold text-gray-900">
+                <p className="text-lg sm:text-xl font-semibold text-gray-900">
                   {filteredContacts.length} results
                 </p>
               </div>
@@ -106,7 +107,7 @@ const App: React.FC = () => {
 
         {/* Error State */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-8">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 sm:mb-8">
             <div className="flex items-center gap-3">
               <AlertCircle className="h-5 w-5 text-red-600" />
               <p className="text-red-700">{error}</p>
@@ -124,7 +125,7 @@ const App: React.FC = () => {
             searchQuery={searchQuery}
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filteredContacts.map((contact) => (
               <ContactCard
                 key={contact._id}

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Edit, Trash2, Phone, User } from 'lucide-react';
 import type { Contact } from '../types/contact';
+import Swal from 'sweetalert2';
+
+const PASSWORD = import.meta.env.VITE_PASSWORD || 'admin';
 
 interface ContactCardProps {
   contact: Contact;
@@ -14,42 +17,68 @@ export const ContactCard: React.FC<ContactCardProps> = ({
   onDelete,
 }) => {
   const handleEdit = () => onEdit(contact);
-  const handleDelete = () => {
-    if (window.confirm(`Are you sure you want to delete ${contact.name}?`)) {
-      onDelete(contact._id);
+
+  const handleDelete = async () => {
+    const { value: password } = await Swal.fire({
+      title: 'Confirm Deletion',
+      text: 'Enter Password:',
+      input: 'password',
+      inputPlaceholder: 'Nhập mật khẩu',
+      inputAttributes: {
+        autocapitalize: 'off',
+        autocorrect: 'off',
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Xác Nhận',
+      cancelButtonText: 'Hủy',
+      inputValidator: (value: string) => {
+        if (!value.trim()) {
+          return 'Mật khẩu không được để trống!';
+        }
+        if (value !== PASSWORD) {
+          return 'Incorrect password!';
+        }
+        return null;
+      },
+    });
+
+    if (password) {
+      if (window.confirm(`Bạn có chắc muốn xóa ${contact.name}?`)) {
+        onDelete(contact._id);
+      }
     }
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200 hover:-translate-y-1">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 hover:shadow-md transition-all duration-200 hover:-translate-y-1">
       <div className="flex items-start justify-between">
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 bg-blue-50 rounded-lg">
               <User className="h-5 w-5 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 truncate">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
               {contact.name}
             </h3>
           </div>
           
           <div className="flex items-center gap-2 text-gray-600">
             <Phone className="h-4 w-4" />
-            <span className="text-sm">{contact.phone}</span>
+            <span className="text-sm truncate">{contact.phone}</span>
           </div>
         </div>
         
-        <div className="flex gap-2 ml-4">
+        <div className="flex gap-1 sm:gap-2 ml-2 sm:ml-4 flex-shrink-0">
           <button
             onClick={handleEdit}
-            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+            className="p-1.5 sm:p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
             title="Edit contact"
           >
             <Edit className="h-4 w-4" />
           </button>
           <button
             onClick={handleDelete}
-            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
+            className="p-1.5 sm:p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
             title="Delete contact"
           >
             <Trash2 className="h-4 w-4" />
