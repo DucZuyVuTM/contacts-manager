@@ -36,8 +36,13 @@ const App: React.FC = () => {
   const handleFormSubmit = async (data: ContactFormData) => {
     if (editingContact) {
       await updateContact(editingContact._id, data);
+      return true;
     } else {
-      await createContact(data);
+      if (window.confirm(`Are you sure to create ${data.name}?`)) {
+        await createContact(data);
+        return true;
+      }
+      return false;
     }
   };
 
@@ -52,21 +57,21 @@ const App: React.FC = () => {
       <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-100 rounded-lg">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="p-2 bg-blue-100 rounded-lg flex-shrink-0">
                 <Users className="h-6 w-6 text-blue-600" />
               </div>
-              <h1 className="text-lg sm:text-xl font-semibold text-gray-900 truncate">
+              <h1 className="text-lg sm:text-xl font-semibold text-gray-900 overflow-x-auto [scrollbar-width:none]">
                 Contacts Manager
               </h1>
             </div>
             <button
               onClick={handleAddContact}
-              className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+              className="inline-flex items-center gap-1 sm:gap-2 ml-2 px-2 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
             >
               <Plus className="h-4 w-4" />
-              <span className="hidden xs:inline">Add Contact</span>
-              <span className="xs:hidden">Add</span>
+              <span className="hidden sm:inline">Add Contact</span>
+              <span className="sm:hidden">Add</span>
             </button>
           </div>
         </div>

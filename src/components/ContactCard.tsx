@@ -44,14 +44,14 @@ export const ContactCard: React.FC<ContactCardProps> = ({
             <div className="p-2 bg-blue-50 rounded-lg">
               <User className="h-5 w-5 text-blue-600" />
             </div>
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 overflow-x-auto [scrollbar-width:none]">
               {contact.name}
             </h3>
           </div>
           
           <div className="flex items-center gap-2 text-gray-600">
             <Phone className="h-4 w-4" />
-            <span className="text-sm truncate">{contact.phone}</span>
+            <span className="text-sm overflow-x-auto [scrollbar-width:none]">{contact.phone}</span>
           </div>
         </div>
         

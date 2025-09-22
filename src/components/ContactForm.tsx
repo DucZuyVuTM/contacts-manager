@@ -4,7 +4,7 @@ import type { Contact, ContactFormData } from '../types/contact';
 
 interface ContactFormProps {
   contact?: Contact | null;
-  onSubmit: (data: ContactFormData) => Promise<void>;
+  onSubmit: (data: ContactFormData) => Promise<boolean>;
   onCancel: () => void;
   isOpen: boolean;
 }
@@ -58,9 +58,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     
     setIsSubmitting(true);
     try {
-      await onSubmit(formData);
-      setFormData({ name: '', phone: '' });
-      onCancel();
+      const success = await onSubmit(formData);
+      if (success) {
+        setFormData({ name: '', phone: '' });
+        onCancel();
+      }
     } catch (error) {
       console.error('Failed to submit form:', error);
     } finally {
