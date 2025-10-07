@@ -6,6 +6,7 @@ import { ContactForm } from './components/ContactForm';
 import { SearchBar } from './components/SearchBar';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { EmptyState } from './components/EmptyState';
+import { FaMobileAlt, FaEnvelope } from 'react-icons/fa';
 import type { Contact, ContactFormData } from './types/contact';
 
 const App: React.FC = () => {
@@ -141,6 +142,29 @@ const App: React.FC = () => {
             ))}
           </div>
         )}
+      </div>
+
+      {/* Footer */}
+      <div className="mx-8 py-6 border-t-[#dee2e6] border-t border-solid">
+        <div className="container mx-auto px-4 mb-2">
+          <p className="text-center">
+            <FaMobileAlt className="inline mr-1" />
+            <a
+              href="tel:+79057212749"
+              className="text-black hover:underline"
+            >
+              8-905-721-27-49
+            </a>
+            <br />
+            <FaEnvelope className="inline mr-1" />
+            <a
+              href="mailto:duczuyvu12@gmail.com"
+              className="text-black hover:underline"
+            >
+              duczuyvu12@gmail.com
+            </a>
+          </p>
+        </div>
       </div>
 
       {/* Form Modal */}
