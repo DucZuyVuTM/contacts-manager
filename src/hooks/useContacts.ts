@@ -26,7 +26,7 @@ export const useContacts = () => {
       setContacts(prev => [...prev, newContact]);
       return newContact;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create contact');
+      alert(err instanceof Error ? err.message : 'Failed to create contact');
       throw err;
     }
   };
@@ -41,7 +41,7 @@ export const useContacts = () => {
       );
       return updatedContact;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update contact');
+      alert(err instanceof Error ? err.message : 'Failed to update contact');
       throw err;
     }
   };
@@ -51,7 +51,7 @@ export const useContacts = () => {
       await contactsApi.delete(id, password);
       setContacts(prev => prev.filter(contact => contact._id !== id));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete contact');
+      alert(err instanceof Error ? err.message : 'Failed to delete contact');
       throw err;
     }
   };
