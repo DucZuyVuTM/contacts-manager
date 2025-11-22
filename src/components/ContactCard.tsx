@@ -2,11 +2,12 @@ import React from 'react';
 import { Edit, Trash2, Phone, User } from 'lucide-react';
 import type { Contact } from '../types/contact';
 import { promptPassword } from '../utils/promptPassword';
+import Swal from 'sweetalert2';
 
 interface ContactCardProps {
   contact: Contact;
-  onEdit: (contact: Contact) => void;
-  onDelete: (id: string) => void;
+  onEdit: (contact: Contact, password: string) => void;
+  onDelete: (id: string, password: string) => void;
 }
 
 export const ContactCard: React.FC<ContactCardProps> = ({
@@ -20,7 +21,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({
       `Enter password to edit ${contact.name}:`
     );
 
-    if (password) onEdit(contact);
+    if (password) onEdit(contact, password);
   };
 
   const handleDelete = async () => {
@@ -30,9 +31,18 @@ export const ContactCard: React.FC<ContactCardProps> = ({
     );
 
     if (password) {
-      if (window.confirm(`Are you sure to delete ${contact.name}?`)) {
-        onDelete(contact._id);
-      }
+      const result = await Swal.fire({
+        title: `Are you sure?`,
+        text: `You are about to delete ${contact.name}. This action cannot be undone.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        cancelButtonColor: '#2563eb',
+        confirmButtonText: 'Yes, delete it!',
+        theme: 'dark',
+      });
+      
+      if (result.isConfirmed) onDelete(contact._id, password);
     }
   };
 

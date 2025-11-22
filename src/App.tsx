@@ -14,6 +14,7 @@ const App: React.FC = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [AdminPassword, setAdminPassword] = useState('');
 
   const filteredContacts = useMemo(() => {
     if (!searchQuery) return contacts;
@@ -29,14 +30,16 @@ const App: React.FC = () => {
     setIsFormOpen(true);
   };
 
-  const handleEditContact = (contact: Contact) => {
-    setEditingContact(contact);
+  const handleEditContact = (contact: Contact, password? : string) => {
+    if (password) setAdminPassword(password);
+    setEditingContact(contact);    
     setIsFormOpen(true);
   };
 
   const handleFormSubmit = async (data: ContactFormData) => {
     if (editingContact) {
-      await updateContact(editingContact._id, data);
+      await updateContact(editingContact._id, data, AdminPassword);
+      setAdminPassword('');
       return true;
     } else {
       if (window.confirm(`Are you sure to create ${data.name}?`)) {
@@ -111,18 +114,15 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Error State */}
-        {error && (
+        {/* Error State and Content */}
+        {error ? (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 sm:mb-8">
             <div className="flex items-center gap-3">
               <AlertCircle className="h-5 w-5 text-red-600" />
               <p className="text-red-700">{error}</p>
             </div>
           </div>
-        )}
-
-        {/* Content */}
-        {loading ? (
+        ) : loading ? (
           <LoadingSpinner />
         ) : filteredContacts.length === 0 ? (
           <EmptyState

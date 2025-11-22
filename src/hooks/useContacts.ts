@@ -31,9 +31,9 @@ export const useContacts = () => {
     }
   };
 
-  const updateContact = async (id: string, contactData: ContactFormData) => {
+  const updateContact = async (id: string, contactData: ContactFormData, password: string) => {
     try {
-      const updatedContact = await contactsApi.update(id, contactData);
+      const updatedContact = await contactsApi.update(id, contactData, password);
       setContacts(prev => 
         prev.map(contact => 
           contact._id === id ? updatedContact : contact
@@ -46,9 +46,9 @@ export const useContacts = () => {
     }
   };
 
-  const deleteContact = async (id: string) => {
+  const deleteContact = async (id: string, password: string) => {
     try {
-      await contactsApi.delete(id);
+      await contactsApi.delete(id, password);
       setContacts(prev => prev.filter(contact => contact._id !== id));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete contact');

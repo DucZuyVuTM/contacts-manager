@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2';
-import { PASSWORD } from '../env';
 
 export const promptPassword = async (
   title: string,
@@ -19,13 +18,12 @@ export const promptPassword = async (
     cancelButtonText: 'Cancel',
     confirmButtonColor: '#2563eb',
     cancelButtonColor: '#dc2626',
+    theme: 'dark',
     inputValidator: (value: string) => {
       if (!value.trim()) {
         return 'Password cannot be blank!';
       }
-      if (value !== PASSWORD) {
-        return 'Incorrect password!';
-      }
+
       return null;
     },
   });
